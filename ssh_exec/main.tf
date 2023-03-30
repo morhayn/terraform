@@ -1,8 +1,12 @@
 terraform {
   required_providers {
     null = {
-      source = "local"
+      source = "null"
       version = ">= 3.2.1"
+    }
+    local = {
+      source = "local"
+      version = ">= 2.4.0"
     }
   }
 }
