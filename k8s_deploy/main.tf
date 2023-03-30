@@ -1,11 +1,11 @@
 terraform {
   required_providers {
     kubernetes = {
-      source = "local"
+      source = "kubernetes"
       version = ">= 2.19.0"
     }
     helm = {
-        sousource = "local"
+        source = "helm"
         version = ">= 2.9.0"
     }
   }
