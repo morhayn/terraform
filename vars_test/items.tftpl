@@ -1,0 +1,3 @@
+%{ for item_key, item_value in items ~}
+${item_key}: "My name is ${item_value.name} and my age is ${item_value.age}".
+%{ endfor ~}
