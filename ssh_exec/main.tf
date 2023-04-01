@@ -10,6 +10,10 @@ terraform {
     }
   }
 }
+variable "user_password" {
+  description = "Password user for execute remote ssh command"
+  type = string
+}
 
 locals {
   hosts = [
@@ -28,7 +32,7 @@ locals {
     ] }
   ]
 }
-resource "null_resource" "name" {
+resource "null_resource" "sshcmd" {
   for_each = {
     for index, host in locals.hosts:
     host.name => host
@@ -36,7 +40,7 @@ resource "null_resource" "name" {
   connection {
     type = "ssh"
     user = "user"
-    password = var.root_password
+    password = var.user_password
     host = each.host.ip
   }
   provisioner "file" {
@@ -50,4 +54,36 @@ resource "null_resource" "name" {
   provisioner "remote-exec" {
     inline = each.host.commands
   }
+}
+variable "hosts" {
+  type = list(map(string))
+}
+hosts = [
+  {
+    name = "web"
+    ip = "10.0.0.10"
+    files = [
+      {src = "templ/nginx.conf", dest = "/etc/nginx/"},
+      {src = "templ/conf.d/site.conf", dest = "/etc/nginx/conf.d/"}
+    ]
+    commands = [
+      "dnf install nginx",
+      "systemctl enable --now nginx",
+    ]
+  }
+]
+resource "null_resource" "sshcmd2" {
+  for_each = var.hosts
+  connection {
+    type = "ssh"
+    user = "user"
+    password = var.user_password
+    ip = each.value.ip
+  }
+  provisioner "file" {
+  
+  }
+  provisioner "remote-exec" {
+  
+  } 
 }
