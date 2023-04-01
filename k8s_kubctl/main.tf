@@ -5,8 +5,8 @@ terraform {
       version = ">= 1.7.0"
     }
     kubernetes = {
-      config_path = "~/kube/config"
-      config_context = var.cluster-context
+      source = "kubernetes"
+      version = ">= 2.19.0"
     }
   }
 }
