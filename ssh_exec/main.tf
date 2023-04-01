@@ -55,35 +55,37 @@ resource "null_resource" "sshcmd" {
     inline = each.host.commands
   }
 }
-variable "hosts" {
-  type = list(map(string))
-}
-hosts = [
-  {
-    name = "web"
-    ip = "10.0.0.10"
-    files = [
-      {src = "templ/nginx.conf", dest = "/etc/nginx/"},
-      {src = "templ/conf.d/site.conf", dest = "/etc/nginx/conf.d/"}
-    ]
-    commands = [
-      "dnf install nginx",
-      "systemctl enable --now nginx",
-    ]
-  }
-]
-resource "null_resource" "sshcmd2" {
-  for_each = var.hosts
-  connection {
-    type = "ssh"
-    user = "user"
-    password = var.user_password
-    ip = each.value.ip
-  }
-  provisioner "file" {
-  
-  }
-  provisioner "remote-exec" {
-  
-  } 
-}
+# variable "hosts" {
+  # type = list(map(string))
+# }
+# hosts = [
+  # {
+    # name = "web"
+    # ip = "10.0.0.10"
+    # files = [
+      # {src = "templ/nginx.conf", dest = "/etc/nginx/"},
+      # {src = "templ/conf.d/site.conf", dest = "/etc/nginx/conf.d/"}
+    # ]
+    # commands = [
+      # "dnf install nginx",
+      # "systemctl enable --now nginx",
+    # ]
+  # }
+# ]
+# resource "null_resource" "sshcmd2" {
+  # for_each = var.hosts
+  # connection {
+    # type = "ssh"
+    # user = "user"
+    # password = var.user_password
+    # ip = each.value.ip
+  # }
+  # provisioner "file" {
+    # for_each = each.value.files
+    # source = each.file.src
+    # destination = each.file.dest
+  # }
+  # provisioner "remote-exec" {
+    # inline = each.value.commands
+  # } 
+# }
