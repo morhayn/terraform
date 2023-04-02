@@ -47,9 +47,9 @@ resource "kubernetes_deployment" "diaginfra" {
                     name = "X-Live"
                     value = "OK"
                 }
+                initial_delay_seconds = 2
+                period_seconds = 5
             }
-            initial_delay_seconds = 2
-            period_seconds = 5
         }
     }
   }
